@@ -1,0 +1,16 @@
+---
+
+# creates a Public IP address for a resource group in Azure. Go to the "Public IP address" service in Azure portal to see what this playbook created.
+
+- hosts: localhost
+  connection: local
+  tasks:
+    - name: Create public IP address - {{ name }} in Resource Group - {{ ResourceGroup }}
+      azure_rm_publicipaddress:
+        resource_group: "{{ ResourceGroup }}"
+        name: "{{ name }}"
+      register: ip
+    - debug:
+        var: ip
+
+...

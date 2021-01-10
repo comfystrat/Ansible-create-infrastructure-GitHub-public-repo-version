@@ -1,0 +1,17 @@
+---
+
+# start a virtual machine in Azure
+
+- hosts: localhost
+  connection: local
+  tasks:
+    - name: Start virtual machine {{ VMName }} ...
+      azure_rm_virtualmachine:
+        resource_group: "{{ ResourceGroup }}"
+        name: "{{ VMName }}"
+      register: vm
+    - debug:
+        var: vm
+
+
+...

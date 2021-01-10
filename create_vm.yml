@@ -1,0 +1,44 @@
+---
+
+# creates a virtual machine in Azure and attaches the specified network interface card
+
+- hosts: localhost
+  connection: local
+  tasks:
+    - name: Create VM named - {{ VMName }} in Resource Group {{ ResourceGroup }}
+      azure_rm_virtualmachine:
+        accept_terms: "{{ AcceptTerms }}"
+        plan:
+          name: "{{ offer }}"
+          product: "{{ offer }}"
+          publisher: "{{ publisher }}"
+        resource_group: "{{ ResourceGroup }}" # Ansible
+        storage_account_name: "{{ StorageAccountName }}"
+        virtual_network_name: "{{ VirtualNetworkName }}" # myVnet
+        name: "{{ VMName }}"
+        vm_size: "{{ VMSize }}" # Standard_B2ms
+        network_interface_names: "{{ NetworkInterfaceNames }}"
+        # data_disks:
+        #   - lun: "{{ DataDiskLUN }}" # 0
+        #     disk_size_gb : "{{ DataDiskSizeinGB }}" # 100
+        #     managed_disk_type: "{{ DataDiskType }}" # StandardSSD_LRS
+        #     storage_account_name: "{{ StorageAccountName }}"
+        managed_disk_type: "{{ DataDiskType }}" # StandardSSD_LRS
+        admin_username: "{{ AdminUsername | default('azureuser') }}"
+        ssh_password_enabled: false
+        ssh_public_keys:
+          - path: "{{ SSHKeyPath }}" # /home/matt/.ssh/authorized_keys
+            key_data: "{{ SSHKeyData }}" 
+        os_disk_size_gb: "{{ OSDiskSizeinGB }}" # 100
+        image:
+          offer: "{{ offer }}" # centos-8-3-free
+          publisher: "{{ publisher }}" # cognosys
+          sku: "{{ sku }}" # centos-8-3-free
+          version: "{{ version }}" # latest
+      register: vm
+    - debug:
+        var: vm
+
+
+
+...

@@ -1,0 +1,18 @@
+---
+
+# creates a network interface card in Azure. An Azure virtual network interface card connects a virtual machine to a given virtual network, public IP address, and network security group.
+
+- hosts: localhost
+  connection: local
+  tasks:
+    - name: Create virtual network interface card -  {{ name }} in Resource Group - {{ ResourceGroup }}, virtual network - {{ vNET }}, subnet - {{ subnet }}, security group - {{ SecurityGroup }} for public IP - {{ PublicIPName }}
+      azure_rm_networkinterface:
+        resource_group: "{{ ResourceGroup }}"
+        name: "{{ name }}"
+        virtual_network: "{{ vNET }}"
+        subnet: "{{ subnet }}"
+        public_ip_name: "{{ PublicIPName }}"
+        security_group: "{{ SecurityGroup }}"
+      register: vnic
+    - debug:
+        var: vnic

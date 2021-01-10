@@ -1,0 +1,24 @@
+---
+
+# creates a subnet within a virtual network on Azure
+
+- hosts: localhost
+  connection: local
+  tasks:
+    - name: Adding subnet - "{{ subnetName }}" to virtual network - "{{ VnetName }}"
+      azure_rm_subnet:
+        resource_group: "{{ ResourceGroupName }}"
+        name: "{{ subnetName }}"
+        address_prefix: "{{ CIDERaddress }}"
+        virtual_network: "{{ VnetName }}"
+      register: sn
+    - debug:
+        var: sn
+
+
+
+
+
+
+
+...

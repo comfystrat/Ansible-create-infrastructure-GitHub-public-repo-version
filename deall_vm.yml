@@ -1,0 +1,18 @@
+---
+
+# deallocates a virtual machine in Azure
+
+- hosts: localhost
+  connection: local
+  tasks:
+    - name: Deallocating - {{ VMName }} ...
+      azure_rm_virtualmachine:
+        resource_group: "{{ ResourceGroupName }}"
+        name: "{{ VMName }}"
+        allocated: no
+      register: vm
+    - debug:
+        var: vm
+
+
+...

@@ -1,0 +1,18 @@
+---
+
+# deletes a virtual network in Azure.
+
+- hosts: localhost
+  connection: local
+  tasks:
+    - name: Deleting virtual network - "{{ VnetName }}"
+      azure_rm_virtualnetwork:
+        resource_group: "{{ ResourceGroup }}"
+        name: "{{ VnetName }}"
+        state: absent
+      register: vn
+    - debug:
+        var: vn
+
+
+...

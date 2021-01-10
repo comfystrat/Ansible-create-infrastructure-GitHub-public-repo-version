@@ -1,0 +1,18 @@
+---
+
+# creates a virtual network in Azure.
+
+- hosts: localhost
+  connection: local
+  tasks:
+    - name: Creating virtual network - "{{ VnetName }}"
+      azure_rm_virtualnetwork:
+        resource_group: "{{ ResourceGroup }}"
+        name: "{{ VnetName }}"
+        address_prefixes: "{{ CIDERaddress }}"
+      register: vn
+    - debug:
+        var: vn
+
+
+...

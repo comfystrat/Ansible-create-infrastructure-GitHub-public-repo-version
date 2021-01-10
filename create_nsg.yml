@@ -1,0 +1,25 @@
+---
+
+# creates a network security group in Azure
+
+- hosts: localhost
+  connection: local
+  tasks:
+    - name: Create Network Security Group - {{ name }} in Resource Group - {{ ResourceGroup }} that allows SSH
+      azure_rm_securitygroup:
+        resource_group: "{{ ResourceGroup }}"
+        name: "{{ name }}"
+        rules:
+          - name: SSH
+            description: Allow SSH traffic on TCP port 22
+            protocol: Tcp
+            destination_port_range: 22
+            access: Allow
+            priority: 1001
+            direction: Inbound
+      register: nsg
+    - debug:
+        var: nsg
+
+
+...

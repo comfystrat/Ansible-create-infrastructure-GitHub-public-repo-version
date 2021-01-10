@@ -1,0 +1,23 @@
+---
+
+# create a storage account in Azure
+
+- hosts: localhost
+  connection: local
+  tasks:
+    - name: Create a storage account - "{{ name }}" in Resource Group - {{ ResourceGroup }}
+      azure_rm_storageaccount:
+        resource_group: "{{ ResourceGroup }}"
+        access_tier: "{{ AccessTier }}" # Hot
+        account_type: "{{ AccountType }}" # Standard_LRS
+        kind: "{{ kind | default('StorageV2') }}" # StorageV2
+        minimum_tls_version: "{{ MinimumTLSVersion | default('TLS1_2') }}" # there is a bug in the current version of Ansible at this time which doesn't appear to take the default value listed
+        name: "{{ name }}" # Storage account name must be between 3 and 24 characters in length and use numbers and lower-case letters only
+        state: "{{ state | default('present')}}"
+      register: sa
+    - debug:
+        var: sa
+
+
+
+...

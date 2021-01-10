@@ -1,0 +1,16 @@
+---
+
+# deletes a resource group in Azure. WARNING: This will delete all resources within the Resource Group
+
+- hosts: localhost
+  connection: local
+  tasks:
+    - name: Deleting resource group - "{{ name }}"
+      azure_rm_resourcegroup:
+        name: "{{ name }}"
+        state: absent
+      register: rg
+    - debug:
+        var: rg
+
+...
